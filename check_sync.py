@@ -1,38 +1,22 @@
-import time
-import aiohttp
-import asyncio
+import requests
 from bs4 import BeautifulSoup
-import random
+import time
 
-
-async def search(session, url):
+def search(url):
+    st = time.time()
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
                       'AppleWebKit/537.36 (KHTML, like Gecko) '
                       'Chrome/85.0.4183.102 Safari/537.36',
     }
 
-    async with session.get(url, headers=headers) as response:
-        res, status_code = await response.text(), response.status
-
-    with open(f'files/{url.replace("https://", "").replace("/", "-").replace(":", "").replace("?", "-")}.html',
-              'w', encoding='utf-8') as f:
-        f.write(res)
-
-    soup = BeautifulSoup(res, 'html.parser')
+    response = requests.get(url, headers=headers)
+    soup = BeautifulSoup(response.content, 'html.parser')
     try:
-        title = soup.find('a', {'class': 'title'}).text.strip()
-    except:
-        title = ''
-    print(status_code, title)
-
-
-async def search_all(urls):
-    st = time.time()
-    async with aiohttp.ClientSession() as session:
-        tasks = [search(session, url) for url in urls]
-        await asyncio.gather(*tasks)
-    print('time taken:', time.time() - st)
+        title = len(soup.find_all('a', {'class': 'title'}))
+    except StopIteration:
+        title = None
+    print(f'{response.status_code} [{time.time() - st} sec] {title}')
 
 
 links = [
@@ -93,4 +77,5 @@ links = [
     'https://www.kijiji.ca/b-classic-cars/canada/corvette/k0c122l0?rb=true',
 ]
 
-asyncio.run(search_all(links))
+for link in links:
+    search(link)
