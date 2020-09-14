@@ -5,7 +5,7 @@
       <paths name="aws-ubuntu">
         <serverdata>
           <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="kijiji" local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>
