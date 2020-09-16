@@ -30,6 +30,13 @@
           </mappings>
         </serverdata>
       </paths>
+      <paths name="kijiji-watcher">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/pyapps/kijiji" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
     </serverData>
   </component>
 </project>

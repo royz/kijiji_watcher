@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SshConfigs">
+    <configs>
+      <sshConfig host="ec2-3-131-38-232.us-east-2.compute.amazonaws.com" id="42f341d0-e8bc-40dc-93d9-7d6762cb9fac" keyPath="D:\Temp\key_files\kijiji.pem" port="22" customName="kijiji vps" nameFormat="CUSTOM" username="ubuntu">
+        <option name="customName" value="kijiji vps" />
+      </sshConfig>
+    </configs>
+  </component>
+</project>

@@ -1,15 +1,19 @@
 import time
-
+from pprint import pprint
 import requests
 import sys
 import logging
 from logging.handlers import RotatingFileHandler
 from bs4 import BeautifulSoup
+import ssl
+import config
+import smtplib
 
 
 class Kijiji:
     def __init__(self):
         self.urls = None
+        self.get_urls()
 
     def get_urls(self):
         try:
@@ -19,7 +23,8 @@ class Kijiji:
         except Exception as e:
             logger.error(f'could not read urls from links.txt [{" ".join(str(e).split())}]')
 
-    def search(self, url):
+    @staticmethod
+    def search(url):
         try:
             start_time = time.time()
             response = requests.get(url, headers={
@@ -27,27 +32,81 @@ class Kijiji:
                               'AppleWebKit/537.36 (KHTML, like Gecko) '
                               'Chrome/85.0.4183.102 Safari/537.36',
             })
-            # TODO: get the titles from search result and return titles
+
+            results = []
             soup = BeautifulSoup(response.content, 'html.parser')
             try:
-                title_tags = soup.find_all('a', {'class': 'title'})
-                titles = []
-                for title_tag in title_tags:
-                    try:
-                        titles.append(title_tag.text.strip())
-                    except:
-                        pass
-                logger.info(f'{url}: {len(titles)} results found in {round(time.time() - start_time, 2)} seconds')
-                return titles
+                search_results = soup.find_all('div', {'class': 'search-item'})
             except Exception as e:
                 logger.error(f'could not get search results. [{error_str(e)}]')
                 return []
-
+            for search_result in search_results:
+                try:
+                    posted_at = search_result.find('span', {'class': 'date-posted'})
+                    if not posted_at:
+                        continue
+                    else:
+                        post_time = posted_at.text
+                        if 'minutes' not in post_time:
+                            continue
+                    results.append({
+                        'title': ' '.join(search_result.find('a', {'class': 'title'}).text.split()),
+                        'link': 'https://www.kijiji.ca/' + search_result.find('a', {'class': 'title'})['href'],
+                        'id': search_result['data-listing-id'],
+                        'price': search_result.find('div', {'class': 'price'}).text.strip(),
+                    })
+                except:
+                    pass
+            logger.info(
+                f'{url}: {len(results)} results found in {round(time.time() - start_time, 2)} seconds')
+            return results
         except Exception as e:
-            print(e)
+            logger.error(f'could not get search results. [{error_str(e)}]')
+            return []
 
     def compare_search_results(self, url):
-        pass
+        titles = self.search(url)
+        if not self.urls[url]:
+            self.urls[url] = titles
+            logger.info(f'setting new search results for: {url}')
+        else:
+            for title in titles:
+                if title not in self.urls[url]:
+                    logger.info(f'new search result found at: {url} [{title}]')
+                    self.notify(title, url)
+            self.urls[url] = titles
+
+        search_results = self.search(url)
+        if not self.urls[url]:
+            self.urls[url] = titles
+            logger.info(f'setting new search results for: {url}')
+        else:
+            previous_ids = [u['id'] for u in self.urls[url]]
+            print(previous_ids)
+            for search_result in search_results:
+                if search_result['id'] not in previous_ids:
+                    logger.info(f'new search result found at: {url} [{search_result["title"]}]')
+                    self.notify(search_result, url)
+
+    def notify2(self, result, url):
+        pprint(result)
+        print(url)
+
+    def notify(self, result, url):
+        message = 'Subject: New search result on Kijiji\n\n' \
+                  f'Title: {result["title"]}' \
+                  f'Price: {result["price"]}' \
+                  f'Search link: {url}' \
+                  f'Post link: {result["link"]}'
+
+        try:
+            context = ssl.create_default_context()
+            with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as server:
+                server.login(config.sender_email, config.sender_password)
+                server.sendmail(config.sender_email, config.recipient_email, message)
+            logger.info(f'email sent to {config.recipient_email}')
+        except StopIteration:
+            logger.error('could not send email')
 
 
 def error_str(err):
@@ -74,8 +133,6 @@ if __name__ == '__main__':
     logger = logging.getLogger()
 
     kijiji = Kijiji()
-    kijiji.get_urls()
-    for url in kijiji.urls:
-        titles = kijiji.search(url)
-        # print(titles)
-        # print('-' * 100)
+    while True:
+        for url in kijiji.urls:
+            kijiji.compare_search_results(url)
