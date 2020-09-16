@@ -1,5 +1,4 @@
 import time
-from pprint import pprint
 import requests
 import sys
 import logging
@@ -13,6 +12,7 @@ import smtplib
 class Kijiji:
     def __init__(self):
         self.urls = None
+        self.notified_results = []
         self.get_urls()
 
     def get_urls(self):
@@ -65,34 +65,23 @@ class Kijiji:
             return []
 
     def compare_search_results(self, url):
-        titles = self.search(url)
-        if not self.urls[url]:
-            self.urls[url] = titles
-            logger.info(f'setting new search results for: {url}')
-        else:
-            for title in titles:
-                if title not in self.urls[url]:
-                    logger.info(f'new search result found at: {url} [{title}]')
-                    self.notify(title, url)
-            self.urls[url] = titles
-
         search_results = self.search(url)
         if not self.urls[url]:
-            self.urls[url] = titles
+            self.urls[url] = search_results
             logger.info(f'setting new search results for: {url}')
         else:
             previous_ids = [u['id'] for u in self.urls[url]]
-            print(previous_ids)
             for search_result in search_results:
                 if search_result['id'] not in previous_ids:
-                    logger.info(f'new search result found at: {url} [{search_result["title"]}]')
-                    self.notify(search_result, url)
+                    if search_result['id'] not in self.notified_results:
+                        logger.info(f'new search result found at: {url} [{search_result["title"]}]')
+                        self.notify(search_result, url)
+                        self.notified_results.append(search_result['id'])
+                    else:
+                        pass
 
-    def notify2(self, result, url):
-        pprint(result)
-        print(url)
-
-    def notify(self, result, url):
+    @staticmethod
+    def notify(result, url):
         message = 'Subject: New search result on Kijiji\n\n' \
                   f'Title: {result["title"]}' \
                   f'Price: {result["price"]}' \
@@ -135,4 +124,7 @@ if __name__ == '__main__':
     kijiji = Kijiji()
     while True:
         for url in kijiji.urls:
-            kijiji.compare_search_results(url)
+            try:
+                kijiji.compare_search_results(url)
+            except Exception as e:
+                logger.error(error_str(e))
