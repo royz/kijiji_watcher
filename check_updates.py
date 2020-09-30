@@ -17,11 +17,12 @@ class Kijiji:
 
     def get_urls(self):
         try:
-            with open('links.txt') as f:
+            with open('links.txt', encoding='utf-8') as f:
                 urls = f.read().strip().split('\n')
                 self.urls = {url: [] for url in urls}
         except Exception as e:
             logger.error(f'could not read urls from links.txt [{" ".join(str(e).split())}]')
+            return []
 
     @staticmethod
     def search(url):
