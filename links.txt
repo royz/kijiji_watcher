@@ -36,12 +36,6 @@ https://www.kijiji.ca/b-ontario/yamaha-pw/k0l9004
 https://www.kijiji.ca/b-quebec/yamaha-pw/k0l9001
 https://www.kijiji.ca/b-quebec/polaris-outlaw/k0l9001
 https://www.kijiji.ca/b-ontario/polaris-outlaw/k0l9004
-https://www.kijiji.ca/b-ontario/bombardier-tundra/k0l9004
-https://www.kijiji.ca/b-quebec/bombardier-tundra/k0l9001
-https://www.kijiji.ca/b-quebec/ski-doo-tundra/k0l9001
-https://www.kijiji.ca/b-ontario/ski-doo-tundra/k0l9004
-https://www.kijiji.ca/b-ontario/skidoo-tundra/k0l9004
-https://www.kijiji.ca/b-quebec/skidoo-tundra/k0l9001
 https://www.kijiji.ca/b-quebec/yamaha-bravo/k0l9001
 https://www.kijiji.ca/b-ontario/yamaha-bravo/k0l9004
 https://www.kijiji.ca/b-quebec/ds90/k0l9001
@@ -53,7 +47,3 @@ https://www.kijiji.ca/b-classic-cars/canada/jaguar/k0c122l0?rb=true
 https://www.kijiji.ca/b-classic-cars/canada/bmw/k0c122l0
 https://www.kijiji.ca/b-classic-cars/canada/ferrari/k0c122l0?rb=true
 https://www.kijiji.ca/b-classic-cars/canada/corvette/k0c122l0?rb=true
-https://www.kijiji.ca/b-quebec/motoneige-tundra/k0l9001
-https://www.kijiji.ca/b-quebec/tundra/k0l9001
-https://www.kijiji.ca/b-quebec/toundra/k0l9001
-https://www.kijiji.ca/b-quebec/tundra-r/k0l9001

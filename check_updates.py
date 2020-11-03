@@ -17,7 +17,7 @@ class Kijiji:
 
     def get_urls(self):
         try:
-            with open('links.txt', encoding='utf-8') as f:
+            with open(f'links{input_id}.txt', encoding='utf-8') as f:
                 urls = f.read().strip().split('\n')
                 self.urls = {url: [] for url in urls}
         except Exception as e:
@@ -104,6 +104,11 @@ def error_str(err):
 
 
 if __name__ == '__main__':
+    if len(sys.argv) > 1:
+        input_id = sys.argv[1]
+    else:
+        input_id = ''
+
     logging.basicConfig(
         level=logging.DEBUG,
         format='[%(asctime)s] {%(filename)s:%(lineno)d} %(levelname)s - %(message)s',
