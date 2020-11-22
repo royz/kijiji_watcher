@@ -4,9 +4,10 @@ import sys
 import logging
 from logging.handlers import RotatingFileHandler
 from bs4 import BeautifulSoup
-import ssl
 import config
 import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
 
 class Kijiji:
@@ -43,13 +44,6 @@ class Kijiji:
                 return []
             for search_result in search_results:
                 try:
-                    posted_at = search_result.find('span', {'class': 'date-posted'})
-                    if not posted_at:
-                        continue
-                    else:
-                        post_time = posted_at.text
-                        if 'minutes' not in post_time:
-                            continue
                     results.append({
                         'title': ' '.join(search_result.find('a', {'class': 'title'}).text.split()),
                         'link': 'https://www.kijiji.ca/' + search_result.find('a', {'class': 'title'})['href'],
@@ -82,21 +76,24 @@ class Kijiji:
                         pass
 
     @staticmethod
-    def notify(result, url):
-        message = 'Subject: New search result on Kijiji\n\n' \
-                  f'Title: {result["title"]}' \
-                  f'Price: {result["price"]}' \
-                  f'Search link: {url}' \
-                  f'Post link: {result["link"]}'
-
+    def notify(result, search_url):
+        text = f'Title: {result["title"]}\n' \
+               f'Price: {result["price"]}\n' \
+               f'Search link: {search_url}\n' \
+               f'Post link: {result["link"]}'
         try:
-            context = ssl.create_default_context()
-            with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as server:
-                server.login(config.sender_email, config.sender_password)
-                server.sendmail(config.sender_email, config.recipient_email, message)
-            logger.info(f'email sent to {config.recipient_email}')
-        except StopIteration:
-            logger.error('could not send email')
+            message = MIMEMultipart()
+            message['From'] = config.sender_email
+            message['To'] = config.recipient_email
+            message['Subject'] = 'New search result on Kijiji'
+            message.attach(MIMEText(text, 'plain'))
+            with smtplib.SMTP('smtp.gmail.com', 587) as session:
+                session.starttls()
+                session.login(config.sender_email, config.sender_password)
+                session.sendmail(config.sender_email, config.recipient_email, message.as_string())
+            print(f'email sent to {config.recipient_email}')
+        except:
+            print(f'could not send email to {config.recipient_email}')
 
 
 def error_str(err):

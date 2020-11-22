@@ -9,6 +9,13 @@
           </advancedOptions>
         </fileTransfer>
       </webServer>
+      <webServer id="827222d4-060a-4cac-ace2-12bbd6e3f4c2" name="kijiji 2">
+        <fileTransfer rootFolder="/home/ubuntu" accessType="SFTP" host="18.188.99.38" port="22" sshConfigId="ed4342ad-4397-41f4-a1fc-a3fe99709645" sshConfig="kijiji vps 2" keyPair="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
     </option>
   </component>
 </project>

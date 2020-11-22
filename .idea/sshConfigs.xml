@@ -5,6 +5,9 @@
       <sshConfig host="ec2-3-131-38-232.us-east-2.compute.amazonaws.com" id="42f341d0-e8bc-40dc-93d9-7d6762cb9fac" keyPath="D:\Temp\key_files\kijiji.pem" port="22" customName="kijiji vps" nameFormat="CUSTOM" username="ubuntu">
         <option name="customName" value="kijiji vps" />
       </sshConfig>
+      <sshConfig host="18.188.99.38" id="ed4342ad-4397-41f4-a1fc-a3fe99709645" keyPath="D:\Temp\key_files\kijiji.pem" port="22" customName="kijiji vps 2" nameFormat="CUSTOM" username="ubuntu">
+        <option name="customName" value="kijiji vps 2" />
+      </sshConfig>
     </configs>
   </component>
 </project>
