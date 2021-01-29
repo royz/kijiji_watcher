@@ -16,6 +16,13 @@
           </advancedOptions>
         </fileTransfer>
       </webServer>
+      <webServer id="9574406f-a30c-4734-9607-442695b9b315" name="test">
+        <fileTransfer rootFolder="/home/ubuntu" accessType="SFTP" host="52.90.135.28" port="22" sshConfigId="96630c41-6f37-4445-8320-cc6a2409e566" sshConfig="test vps" keyPair="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
     </option>
   </component>
 </project>

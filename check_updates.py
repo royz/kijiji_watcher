@@ -1,4 +1,5 @@
 import time
+import os
 import requests
 import sys
 import logging
@@ -9,6 +10,8 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
+BASE_DIR = os.path.dirname(__file__)
+
 
 class Kijiji:
     def __init__(self):
@@ -17,8 +20,9 @@ class Kijiji:
         self.get_urls()
 
     def get_urls(self):
+        filename = os.path.join(BASE_DIR, f'links{input_id}.txt')
         try:
-            with open(f'links{input_id}.txt', encoding='utf-8') as f:
+            with open(filename, encoding='utf-8') as f:
                 urls = f.read().strip().split('\n')
                 self.urls = {url: [] for url in urls}
         except Exception as e:
