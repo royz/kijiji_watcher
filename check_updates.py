@@ -42,7 +42,7 @@ class Kijiji:
             results = []
             soup = BeautifulSoup(response.content, 'html.parser')
             try:
-                search_results = soup.find_all('div', {'class': 'search-item'})
+                search_results = soup.find_all('article', {'class': 'search-item'})
             except Exception as e:
                 logger.error(f'could not get search results. [{error_str(e)}]')
                 return []
