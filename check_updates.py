@@ -50,7 +50,7 @@ class Kijiji:
                 try:
                     results.append({
                         'title': ' '.join(search_result.find('a', {'class': 'title'}).text.split()),
-                        'link': 'https://www.kijiji.ca/' + search_result.find('a', {'class': 'title'})['href'],
+                        'link': 'https://www.kijiji.ca' + search_result.find('a', {'class': 'title'})['href'],
                         'id': search_result['data-listing-id'],
                         'price': search_result.find('div', {'class': 'price'}).text.strip(),
                     })
