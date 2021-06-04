@@ -11,7 +11,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
 BASE_DIR = os.path.dirname(__file__)
-DEBUG = True
+DEBUG = False
 
 
 class Kijiji:
@@ -40,10 +40,16 @@ class Kijiji:
                               'Chrome/85.0.4183.102 Safari/537.36',
             })
 
+            if DEBUG:
+                with open('index.html', 'w', encoding='utf8') as f:
+                    f.write(response.text)
+
             results = []
             soup = BeautifulSoup(response.content, 'html.parser')
             try:
                 search_results = soup.find_all('article', {'class': 'search-item'})
+                if len(search_results) == 0:
+                    search_results = soup.find_all('div', {'class': 'search-item'})
             except Exception as e:
                 logger.error(f'could not get search results. [{error_str(e)}]')
                 return []
