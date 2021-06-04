@@ -1,3 +1,6 @@
 test.py
 config.py
 .idea
+/.idea/
+*.html
+*.log

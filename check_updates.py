@@ -11,6 +11,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
 BASE_DIR = os.path.dirname(__file__)
+DEBUG = True
 
 
 class Kijiji:
@@ -115,7 +116,7 @@ if __name__ == '__main__':
         format='[%(asctime)s] {%(filename)s:%(lineno)d} %(levelname)s - %(message)s',
         handlers=(
             RotatingFileHandler(
-                filename='kijiji.log',
+                filename=os.path.join(BASE_DIR, 'kijiji.log'),
                 maxBytes=(1024 ** 3) / 2,  # max log file size 512MB
                 backupCount=1,
             ),

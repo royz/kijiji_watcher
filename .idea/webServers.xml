@@ -2,15 +2,15 @@
 <project version="4">
   <component name="WebServers">
     <option name="servers">
-      <webServer id="297033b8-c222-421d-bc94-420136ba74fd" name="kijiji-watcher">
-        <fileTransfer rootFolder="/home/ubuntu" accessType="SFTP" host="ec2-3-131-38-232.us-east-2.compute.amazonaws.com" port="22" sshConfigId="42f341d0-e8bc-40dc-93d9-7d6762cb9fac" sshConfig="kijiji vps" keyPair="true">
+      <webServer id="297033b8-c222-421d-bc94-420136ba74fd" name="kijiji 1">
+        <fileTransfer rootFolder="/home/ubuntu" accessType="SFTP" host="3.134.158.95" port="22" sshConfigId="42f341d0-e8bc-40dc-93d9-7d6762cb9fac" sshConfig="kijiji vps 1" keyPair="true">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
           </advancedOptions>
         </fileTransfer>
       </webServer>
       <webServer id="827222d4-060a-4cac-ace2-12bbd6e3f4c2" name="kijiji 2">
-        <fileTransfer rootFolder="/home/ubuntu" accessType="SFTP" host="18.188.99.38" port="22" sshConfigId="ed4342ad-4397-41f4-a1fc-a3fe99709645" sshConfig="kijiji vps 2" keyPair="true">
+        <fileTransfer rootFolder="/home/ubuntu" accessType="SFTP" host="3.15.63.223" port="22" sshConfigId="ed4342ad-4397-41f4-a1fc-a3fe99709645" sshConfig="kijiji vps 2" keyPair="true">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
           </advancedOptions>
